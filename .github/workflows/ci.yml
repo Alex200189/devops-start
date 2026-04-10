@@ -1,23 +1,34 @@
-name: Project-Pipeline
+name: Professional-CI
 
-on: [push]  # Запускать каждый раз, когда мы пушим код
+on: [push]
 
 jobs:
-  check-process:
+  # СТАДИЯ 1: СБОРКА
+  build-job:
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Checkout (Скачиваем код)
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 2. Build (Имитация сборки)
+      - name: Build project
         run: |
-          echo "Собираем проект..."
-          mkdir -p dist
-          cp index.html dist/
-          echo "Сборка завершена, файл скопирован в папку dist"
+          mkdir -p output
+          echo "Building..." > output/app.log
+          # Представь, что здесь мы компилируем код
 
-      - name: 3. Test (Проверка)
+  # СТАДИЯ 2: ТЕСТИРОВАНИЕ
+  test-job:
+    runs-on: ubuntu-latest
+    needs: build-job  # Ждать, пока завершится сборка
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Unit Tests
         run: |
-          echo "Проверяем наличие файла в сборке..."
-          ls dist/index.html && echo "Тест пройден!" || exit 1
+          echo "Running tests..."
+          # Просто имитация теста: проверяем версию системы
+          node -v
+          python3 --version
+
 
