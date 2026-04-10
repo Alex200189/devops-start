@@ -1,0 +1,23 @@
+name: Project-Pipeline
+
+on: [push]  # Запускать каждый раз, когда мы пушим код
+
+jobs:
+  check-process:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Checkout (Скачиваем код)
+        uses: actions/checkout@v4
+
+      - name: 2. Build (Имитация сборки)
+        run: |
+          echo "Собираем проект..."
+          mkdir -p dist
+          cp index.html dist/
+          echo "Сборка завершена, файл скопирован в папку dist"
+
+      - name: 3. Test (Проверка)
+        run: |
+          echo "Проверяем наличие файла в сборке..."
+          ls dist/index.html && echo "Тест пройден!" || exit 1
+
